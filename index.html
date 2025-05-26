@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✨ Magic Bulb Controller</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #ffffff;
+      text-align: center;
+    }
+
+    header, footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #00ffd5;
+    }
+
+    h1 {
+      margin-top: 1rem;
+      color: #00ffc8;
+    }
+
+    #bulbImage {
+      width: 150px;
+      transition: transform 0.3s ease;
+    }
+
+    #bulbImage:hover {
+      transform: scale(1.1);
+    }
+
+    .control-group {
+      margin: 15px 0;
+    }
+
+    button {
+      background: #00ffc8;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 255, 200, 0.2);
+    }
+
+    button:hover {
+      background: #00cc9f;
+      transform: scale(1.05);
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.5);
+      margin: 0 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 20px;
+      border: none;
+      width: 250px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .name-display h1,
+    .name-display p,
+    .name-display div {
+      margin: 5px 0;
+      font-style: italic;
+      color: #ffeb3b;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px 10px;
+      border-radius: 10px;
+      display: inline-block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .click-count {
+      color: #ff8a65;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>📅 Current Date & Time: <span id="headerDateTime"></span></div>
+  </header>
+
+  <h1>💡 Magic Bulb Controller</h1>
+  <img id="bulbImage" src="https://www.w3schools.com/js/pic_bulboff.gif" alt="Bulb" />
+
+  <div class="control-group">
+    <label><input type="radio" name="bulb" onclick="setBulb(true)"> Bulb ON (Radio)</label>
+    <label><input type="radio" name="bulb" onclick="setBulb(false)"> Bulb OFF (Radio)</label>
+  </div>
+
+  <div class="control-group">
+    <button onclick="setBulb(true)">Turn ON</button>
+    <button onclick="setBulb(false)">Turn OFF</button>
+  </div>
+
+  <div class="control-group">
+    <label>Toggle with Checkbox:
+      <input type="checkbox" id="bulbCheckbox" onchange="setBulb(this.checked)">
+    </label>
+  </div>
+
+  <div class="control-group">
+    <button onclick="toggleBulb()">✨ Universal Toggle</button>
+  </div>
+
+  <div class="control-group">
+    <button onclick="countClicks()">🔄 Click & Count</button>
+    <div class="click-count">🔢 Clicks: <span id="clickCounter">0</span></div>
+  </div>
+
+  <hr style="border: 1px solid #00ffc8; width: 60%; margin: 30px auto;">
+
+  <h2>👤 What's Your Name?</h2>
+  <input type="text" id="nameInput" placeholder="Type your name here" />
+  <br />
+  <button onclick="displayName()">Show My Name</button>
+
+  <div class="name-display">
+    <h1 id="displayH1"></h1>
+    <p id="displayP"></p>
+    <div id="displayDiv"></div>
+  </div>
+
+  <footer>
+    <div>🕒 Time Now: <span id="footerDateTime"></span></div>
+  </footer>
+
+  <script>
+    let isBulbOn = false;
+    let clickCount = 0;
+
+    function setBulb(status) {
+      isBulbOn = status;
+      document.getElementById("bulbImage").src = status
+        ? "https://www.w3schools.com/js/pic_bulbon.gif"
+        : "https://www.w3schools.com/js/pic_bulboff.gif";
+    }
+
+    function toggleBulb() {
+      isBulbOn = !isBulbOn;
+      setBulb(isBulbOn);
+    }
+
+    function countClicks() {
+      clickCount++;
+      toggleBulb();
+      document.getElementById("clickCounter").textContent = clickCount;
+    }
+
+    function displayName() {
+      const name = document.getElementById("nameInput").value.trim();
+      document.getElementById("displayH1").textContent = name.toUpperCase();
+      document.getElementById("displayP").textContent = `Hello, ${name}!`;
+      document.getElementById("displayDiv").textContent = `🔥 Welcome aboard, ${name}! 🔥`;
+    }
+
+    function updateDateTime() {
+      const now = new Date().toLocaleString();
+      document.getElementById("headerDateTime").textContent = now;
+      document.getElementById("footerDateTime").textContent = now;
+    }
+
+    // Run initially and every second
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
+</body>
+</html>
